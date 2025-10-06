@@ -17,11 +17,6 @@ return new class extends Migration
             $table->time('jam_buka')->nullable(false);  // wajib isi
             $table->time('jam_tutup')->nullable(false); // wajib isi
             $table->integer('kuota')->nullable(false);  // wajib isi
-            $table->text('layanan');
-            // $table->foreignId('id_layanan')
-            //       ->constrained('layanan')
-            //       ->onDelete('cascade')
-            //       ->nullable(false);                   // wajib isi
             $table->timestamps();
         });
     }

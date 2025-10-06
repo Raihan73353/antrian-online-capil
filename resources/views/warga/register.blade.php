@@ -19,7 +19,6 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
@@ -32,9 +31,9 @@
             <li class="nav-item active">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Form Pendaftar</span></a>
+                    <span>Form Pendaftar</span>
+                </a>
             </li>
-
         </ul>
         <!-- End of Sidebar -->
 
@@ -60,45 +59,89 @@
                         </div>
                         <div class="card-body">
 
+                            {{-- Flash Messages --}}
+                            @if(session('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    {{ session('success') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+
+                            @if(session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            @if(!empty($errorMessage))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ $errorMessage }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            @endif
+                            {{-- End Flash Messages --}}
+
                             <form action="{{ route('warga.store') }}" method="POST" class="user">
                                 @csrf
 
                                 <div class="form-group">
                                     <label for="nama">Nama Lengkap</label>
-                                    <input type="text" name="nama" id="nama"
-                                           class="form-control form-control-user"
-                                           placeholder="Nama Lengkap" required>
+                                    <input type="text" name="nama" id="nama" value="{{ old('nama') }}"
+                                        class="form-control form-control-user @error('nama') is-invalid @enderror"
+                                        placeholder="Nama Lengkap" required>
+                                    @error('nama')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="nik">NIK</label>
-                                    <input type="text" name="nik" id="nik"
-                                           class="form-control form-control-user"
-                                           placeholder="Nomor Induk Kependudukan" required>
+                                    <input type="text" name="nik" id="nik" value="{{ old('nik') }}"
+                                        class="form-control form-control-user @error('nik') is-invalid @enderror"
+                                        placeholder="Nomor Induk Kependudukan" required>
+                                    @error('nik')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="no_hp">Nomor HP</label>
-                                    <input type="text" name="no_hp" id="no_hp"
-                                           class="form-control form-control-user"
-                                           placeholder="08xxxxxxxxxx" required>
+                                    <input type="text" name="no_hp" id="no_hp" value="{{ old('no_hp') }}"
+                                        class="form-control form-control-user @error('no_hp') is-invalid @enderror"
+                                        placeholder="08xxxxxxxxxx" required>
+                                    @error('no_hp')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="alamat">Alamat Lengkap</label>
                                     <textarea name="alamat" id="alamat"
-                                              class="form-control"
-                                              placeholder="Tuliskan alamat lengkap" rows="3" required></textarea>
+                                        class="form-control @error('alamat') is-invalid @enderror"
+                                        placeholder="Tuliskan alamat lengkap" rows="3"
+                                        required>{{ old('alamat') }}</textarea>
+                                    @error('alamat')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group">
                                     <label for="jenis_pendaftaran">Jenis Pendaftaran</label>
                                     <select name="jenis_pendaftaran" id="jenis_pendaftaran"
-                                            class="form-control" required>
+                                        class="form-control @error('jenis_pendaftaran') is-invalid @enderror" required>
                                         <option value="">-- Pilih Jenis Pendaftaran --</option>
-                                        <option value="dukcapil">Dukcapil</option>
-                                        <option value="pencatatan_sipil">Pencatatan Sipil</option>
+                                        <option value="dukcapil" {{ old('jenis_pendaftaran') == 'dukcapil' ? 'selected' : '' }}>Dukcapil</option>
+                                        <option value="pencatatan_sipil" {{ old('jenis_pendaftaran') == 'pencatatan_sipil' ? 'selected' : '' }}>Pencatatan Sipil</option>
                                     </select>
+                                    @error('jenis_pendaftaran')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <button type="submit" class="btn btn-primary btn-user btn-block">

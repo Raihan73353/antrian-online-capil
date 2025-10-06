@@ -17,4 +17,9 @@ class Antrean extends Model
         'jadwal_id',
         'pendaftar_id',
     ];
+        public function pendaftar()
+    {
+        return $this->belongsTo(Pendaftar::class, 'pendaftar_id');
+    }
+    
 }

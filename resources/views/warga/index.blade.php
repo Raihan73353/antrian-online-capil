@@ -10,7 +10,6 @@
         padding: 30px 20px;
         font-weight: bold;
         color: #fff;
-        /* teks putih */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         transition: transform 0.2s ease-in-out;
     }
@@ -29,28 +28,17 @@
         font-weight: 800;
     }
 
-    /* Warna khusus tiap kotak */
-    .card-total {
-        background: #28a745 !important;
-    }
-
-    /* hijau */
-    .card-selesai {
-        background: #007bff !important;
-    }
-
-    /* biru */
-    .card-berjalan {
-        background: #fd7e14 !important;
-    }
-
-    /* oranye */
+    .card-total { background: #28a745 !important; }
+    .card-selesai { background: #007bff !important; }
+    .card-berjalan { background: #fd7e14 !important; }
 </style>
 @endsection
+
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
 
+
+    <div class="row justify-content-center">
         <!-- Total Antrian -->
         <div class="col-md-4 mb-4">
             <div class="dashboard-card card-total">
@@ -83,12 +71,13 @@
                 </div>
             </div>
         </div>
-        {{-- tombol antrian --}}
-<div class="container text-center mt-4">
-    <a href="{{ route('cetak.antrian') }}" class="btn btn-primary btn-lg">
-        <i class="fas fa-print"></i> Ambil Nomor Antrian
-    </a>
-</div>
+
+        {{-- Tombol antrian --}}
+        <div class="container text-center mt-4">
+            <a href="{{ route('cetak.antrian') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-print"></i> Ambil Nomor Antrian
+            </a>
+        </div>
     </div>
 </div>
 @endsection

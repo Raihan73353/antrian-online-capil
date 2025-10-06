@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('nik')->unique();               // NIK
             $table->string('no_hp');                       // Nomor HP
             $table->text('alamat');                        // Alamat lengkap
-            $table->enum('jenis_pendaftaran', ['dukcapil', 'pencatatan_sipil']); 
+            $table->enum('jenis_pendaftaran', ['dukcapil', 'pencatatan_sipil']);
             $table->timestamps();
         });
     }

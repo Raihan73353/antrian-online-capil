@@ -21,8 +21,8 @@
     </a>
     <div id="collapsePendaftaran" class="collapse" aria-labelledby="headingPendaftaran" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">Pencatatan Sipil</a>
-            <a class="collapse-item" href="#">Pendaftaran Dukcapil</a>
+            <a class="collapse-item" href="{{ route('dukcapil.index') }}">Dukcapil</a>
+            <a class="collapse-item" href="{{ route('pencatatan_sipil.index') }}">Pencatatan Sipil</a>
         </div>
     </div>
 </li>
@@ -31,13 +31,13 @@
         </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link" href="{{ route('jadwal.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Pengaturan jadwal</span>
         </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+        <a class="nav-link" href="{{ route('laporan.index') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Laporan</span>
         </a>

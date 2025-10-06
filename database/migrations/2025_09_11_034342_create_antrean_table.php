@@ -15,6 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('pendaftar_id');
             $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
             $table->foreign('pendaftar_id')->references('id')->on('pendaftar')->onDelete('cascade');
+            $table->enum('status', ['belum', 'selesai'])->default('belum');
             $table->timestamps();
         });
     }

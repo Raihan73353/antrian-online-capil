@@ -18,4 +18,8 @@ class Pendaftar extends Model
         'alamat',
         'jenis_pendaftaran',
     ];
+        public function antrean()
+    {
+        return $this->hasMany(Antrean::class, 'pendaftar_id');
+    }
 }

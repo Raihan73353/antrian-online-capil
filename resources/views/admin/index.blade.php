@@ -68,7 +68,7 @@
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-check-circle fa-3x mb-3"></i>
                     <h5>Antrian Selesai</h5>
-                    <h2>{{ $antrianSelesai ?? 20 }}</h2>
+                    <h2>{{ $antrianSelesai }}</h2>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
                 <div class="d-flex flex-column align-items-center justify-content-center">
                     <i class="fas fa-clock fa-3x mb-3"></i>
                     <h5>Antrian Berjalan</h5>
-                    <h2>{{ $antrianBerjalan ?? 10 }}</h2>
+                    <h2>{{ $antrianBerjalan}}</h2>
                 </div>
             </div>
         </div>
