@@ -17,4 +17,8 @@ class Jadwal extends Model
         'jam_tutup',
         'kuota',
     ];
+    public function antrean()
+{
+    return $this->hasMany(Antrean::class, 'jadwal_id');
+}
 }

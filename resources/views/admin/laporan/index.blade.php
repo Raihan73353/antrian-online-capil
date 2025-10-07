@@ -63,8 +63,6 @@
                         @endforelse
                     </tbody>
                 </table>
-                <!-- End Tabel -->
-
             </div>
         </div>
     </div>

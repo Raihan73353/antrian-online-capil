@@ -17,21 +17,22 @@ class WargaController extends Controller
     }
     public function register()
     {
-        $today = now()->toDateString();
-        $jadwal = Jadwal::whereDate('tanggal', $today)->first();
+    $jadwals = Jadwal::whereDate('tanggal', '>=', now()->toDateString())
+        ->whereRaw('
+            (SELECT COUNT(*)
+             FROM antrean
+             WHERE antrean.jadwal_id = jadwal.id) < jadwal.kuota
+        ')
+        ->orderBy('tanggal', 'asc')
+        ->get();
 
         $errorMessage = null;
 
-        if (!$jadwal) {
-            $errorMessage = 'Belum ada jadwal untuk hari ini.';
-        } else {
-            $totalAntrean = Antrean::where('jadwal_id', $jadwal->id)->count();
-            if ($totalAntrean >= $jadwal->kuota) {
-                $errorMessage = 'Kuota antrean untuk hari ini sudah penuh.';
-            }
+        if ($jadwals->isEmpty()) {
+            $errorMessage = 'Belum ada jadwal yang tersedia.';
         }
 
-        return view('warga.register', compact('jadwal', 'errorMessage'));
+        return view('warga.register', compact('jadwals', 'errorMessage'));
     }
 
     public function store(Request $request)
@@ -48,6 +49,7 @@ class WargaController extends Controller
 
         session(['pendaftar_id' => $pendaftar->id]);
         session(['jenis_pendaftaran' => $pendaftar->jenis_pendaftaran]);
+        session(['jadwal_id' => $request->jadwal_id]);
 
         return redirect()->route('warga.index')
             ->with('success', 'Pendaftar berhasil ditambahkan.');
@@ -57,13 +59,11 @@ class WargaController extends Controller
     {
         $pendaftarId = session('pendaftar_id');
         $jenis_pendaftaran = session('jenis_pendaftaran');
-
+        $jadwal_ids = session('jadwal_id');
         if (!$pendaftarId) {
             return redirect()->route('register')
                 ->with('error', 'Silakan daftar terlebih dahulu.');
         }
-
-        // Tentukan prefix
         $prefix = 'A'; // default
         if ($jenis_pendaftaran === 'dukcapil') {
             $prefix = 'A';
@@ -73,14 +73,14 @@ class WargaController extends Controller
 
         // Cari jadwal hari ini
         $today = now()->toDateString();
-        $jadwal = Jadwal::whereDate('tanggal', $today)->first();
+        $jadwal = Jadwal::where('id', $jadwal_ids)->first();
 
         if (!$jadwal) {
             return redirect()->route('register')
                 ->with('error', 'Belum ada jadwal untuk hari ini.');
         }
 
-        $totalAntrean = Antrean::where('jadwal_id', $jadwal->id)->count();
+        $totalAntrean = Antrean::where('id', $jadwal_ids)->count();
 
         if ($totalAntrean >= $jadwal->kuota) {
             return redirect()->route('register')

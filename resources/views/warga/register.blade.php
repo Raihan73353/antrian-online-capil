@@ -14,12 +14,10 @@
 
 <body id="page-top">
 
-    <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-user-plus"></i>
@@ -37,22 +35,16 @@
         </ul>
         <!-- End of Sidebar -->
 
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
             <div id="content">
 
-                <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
                     <h5 class="m-0 font-weight-bold text-primary">Form Pendaftaran Baru</h5>
                 </nav>
-                <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Form Card -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Isi Data Pendaftaran</h6>
@@ -77,6 +69,7 @@
                                     </button>
                                 </div>
                             @endif
+
                             @if(!empty($errorMessage))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     {{ $errorMessage }}
@@ -131,6 +124,25 @@
                                     @enderror
                                 </div>
 
+                                {{-- 🔽 Tambahan: Pilih tanggal jadwal --}}
+                                <div class="form-group">
+                                    <label for="jadwal_id">Tanggal Jadwal</label>
+                                    <select name="jadwal_id" id="jadwal_id"
+                                        class="form-control @error('jadwal_id') is-invalid @enderror" required>
+                                        <option value="">-- Pilih Tanggal Jadwal --</option>
+                                        @foreach ($jadwals as $j)
+                                            <option value="{{ $j->id }}">
+                                                {{ \Carbon\Carbon::parse($j->tanggal)->translatedFormat('d F Y') }}
+                                                ({{ $j->jam_buka }} - {{ $j->jam_tutup }})
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('jadwal_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                                {{-- 🔼 Akhir tambahan --}}
+
                                 <div class="form-group">
                                     <label for="jenis_pendaftaran">Jenis Pendaftaran</label>
                                     <select name="jenis_pendaftaran" id="jenis_pendaftaran"
@@ -153,12 +165,8 @@
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
-
             </div>
-            <!-- End of Main Content -->
 
-            <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
@@ -166,22 +174,13 @@
                     </div>
                 </div>
             </footer>
-            <!-- End of Footer -->
-
         </div>
-        <!-- End of Content Wrapper -->
-
     </div>
-    <!-- End of Page Wrapper -->
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="{{ asset('sb-admin/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('sb-admin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="{{ asset('sb-admin/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('sb-admin/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
 </body>
-
 </html>

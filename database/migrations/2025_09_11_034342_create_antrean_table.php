@@ -9,8 +9,8 @@ return new class extends Migration
     {
         Schema::create('antrean', function (Blueprint $table) {
             $table->id();
-            $table->string('nomor'); // contoh A 001
-            $table->string('jam');   // contoh 08.00
+            $table->string('nomor');
+            $table->string('jam');
             $table->unsignedBigInteger('jadwal_id');
             $table->unsignedBigInteger('pendaftar_id');
             $table->foreign('jadwal_id')->references('id')->on('jadwal')->onDelete('cascade');
