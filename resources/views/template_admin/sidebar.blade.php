@@ -32,20 +32,20 @@
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('jadwal.index') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <i class="fas fa-clock"></i>
             <span>Pengaturan jadwal</span>
         </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('laporan.index') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+           <i class="fas fa-fw fa-clipboard-list"></i>
             <span>Laporan</span>
         </a>
     <hr class="sidebar-divider my-0">
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('register') }}">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>regis-warga</span>
+        <a class="nav-link" href="{{ route('users.index') }}">
+            <i class="fas fa-users"></i>
+            <span>users</span>
         </a>
 
 

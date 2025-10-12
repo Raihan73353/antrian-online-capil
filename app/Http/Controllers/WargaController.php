@@ -55,62 +55,62 @@ class WargaController extends Controller
             ->with('success', 'Pendaftar berhasil ditambahkan.');
     }
 
-    public function cetak(Request $request)
-    {
-        $pendaftarId = session('pendaftar_id');
-        $jenis_pendaftaran = session('jenis_pendaftaran');
-        $jadwal_ids = session('jadwal_id');
-        if (!$pendaftarId) {
-            return redirect()->route('register')
-                ->with('error', 'Silakan daftar terlebih dahulu.');
-        }
-        $prefix = 'A'; // default
-        if ($jenis_pendaftaran === 'dukcapil') {
-            $prefix = 'A';
-        } elseif ($jenis_pendaftaran === 'pencatatan_sipil') {
-            $prefix = 'B';
-        }
+public function cetak(Request $request)
+{
+    $pendaftarId = session('pendaftar_id');
+    $jenis_pendaftaran = session('jenis_pendaftaran');
+    $jadwal_id = session('jadwal_id');
 
-        // Cari jadwal hari ini
-        $today = now()->toDateString();
-        $jadwal = Jadwal::where('id', $jadwal_ids)->first();
+    // 🔒 Pastikan warga sudah registrasi
+    if (!$pendaftarId) {
+        return redirect()->route('register')
+            ->with('error', 'Adnda Telah Mengambil Nomor Antrean Silakan daftar terlebih dahulu.');
 
-        if (!$jadwal) {
-            return redirect()->route('register')
-                ->with('error', 'Belum ada jadwal untuk hari ini.');
-        }
-
-        $totalAntrean = Antrean::where('id', $jadwal_ids)->count();
-
-        if ($totalAntrean >= $jadwal->kuota) {
-            return redirect()->route('register')
-                ->with('error', 'Kuota antrean untuk hari ini sudah penuh.');
-        }
-
-        // Ambil nomor terakhir sesuai prefix & jadwal_id
-        $last = Antrean::where('jadwal_id', $jadwal->id)
-            ->where('nomor', 'like', $prefix . '%')
-            ->orderBy('id', 'desc')
-            ->first();
-
-        if ($last) {
-            $lastNumber = (int) substr($last->nomor, 1);
-            $newNumber = $lastNumber + 1;
-        } else {
-            $newNumber = 1;
-        }
-
-        // Format nomor antrian
-        $nomor = $prefix . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
-
-        // Simpan ke DB
-        $antrean = Antrean::create([
-            'nomor'         => $nomor,
-            'jam'           => now()->format('H:i'),
-            'jadwal_id'     => $jadwal->id,
-            'pendaftar_id'  => $pendaftarId,
-        ]);
-
-        return view('warga.show', compact('antrean'));
     }
+
+    // Tentukan prefix berdasarkan jenis pendaftaran
+    $prefix = match ($jenis_pendaftaran) {
+        'dukcapil' => 'A',
+        'pencatatan_sipil' => 'B',
+        default => 'A'
+    };
+
+    // Ambil jadwal berdasarkan session
+    $jadwal = Jadwal::find($jadwal_id);
+    if (!$jadwal) {
+        return redirect()->route('register')
+            ->with('error', 'Jadwal tidak ditemukan.');
+    }
+
+    // ✅ Cek kuota antrean untuk jadwal ini
+    $totalAntrean = Antrean::where('jadwal_id', $jadwal->id)->count();
+    if ($totalAntrean >= $jadwal->kuota) {
+        return redirect()->route('register')
+            ->with('error', 'Kuota antrean untuk jadwal ini sudah penuh.');
+    }
+
+    // ✅ Ambil nomor terakhir untuk jadwal & prefix ini
+    $last = Antrean::where('jadwal_id', $jadwal->id)
+        ->where('nomor', 'like', $prefix . '%')
+        ->orderByDesc('id')
+        ->first();
+
+    // Tentukan nomor baru
+    $newNumber = $last ? ((int) substr($last->nomor, 1) + 1) : 1;
+
+    // Format nomor (contoh: A001, B002, dst)
+    $nomor = $prefix . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+
+    // ✅ Simpan ke database
+    $antrean = Antrean::create([
+        'nomor'         => $nomor,
+        'jam'           => now()->format('H:i'),
+        'jadwal_id'     => $jadwal->id,
+        'pendaftar_id'  => $pendaftarId,
+    ]);
+      session()->forget(['pendaftar_id', 'jenis_pendaftaran', 'jadwal_id']);
+
+    return view('warga.show', compact('antrean'));
+}
+
 }
