@@ -132,7 +132,7 @@
 
                         <div class="mb-3">
                             <label for="nik">NIK</label>
-                            <input type="text" name="nik" id="nik"
+                            <input type="number" name="nik" id="nik"
                                 value="{{ old('nik') }}"
                                 class="form-control @error('nik') is-invalid @enderror"
                                 placeholder="Nomor Induk Kependudukan" required>

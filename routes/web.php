@@ -9,11 +9,24 @@ use App\Http\Controllers\PencatatanSipilController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use Illuminate\Http\Request;
 
 
 // Default route -> langsung arahkan ke dashboard
-Route::get('/', function () {
-    return redirect()->route('dashboard');
+// Route::get('/', function () {
+//     return redirect()->route('dashboard');
+// });
+
+Route::get('/', function (Request $request) {
+    $userAgent = strtolower($request->header('User-Agent'));
+
+    if (strpos($userAgent, 'android') !== false || strpos($userAgent, 'iphone') !== false) {
+        // Jika dari HP
+        return redirect()->route('warga.index');
+    } else {
+        // Jika dari Laptop / PC
+        return redirect()->route('dashboard');
+    }
 });
 
 // Route warga

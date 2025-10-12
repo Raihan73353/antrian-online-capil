@@ -44,7 +44,7 @@ class WargaController extends Controller
             'alamat' => 'required|string',
             'jenis_pendaftaran' => 'required|in:dukcapil,pencatatan_sipil',
         ]);
-
+        $validated['nama'] = strtoupper($validated['nama']);
         $pendaftar = Pendaftar::create($validated);
 
         session(['pendaftar_id' => $pendaftar->id]);
