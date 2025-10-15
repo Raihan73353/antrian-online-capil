@@ -101,6 +101,8 @@ public function cetak(Request $request)
     // Format nomor (contoh: A001, B002, dst)
     $nomor = $prefix . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 
+
+
     // ✅ Simpan ke database
     $antrean = Antrean::create([
         'nomor'         => $nomor,
@@ -110,7 +112,7 @@ public function cetak(Request $request)
     ]);
       session()->forget(['pendaftar_id', 'jenis_pendaftaran', 'jadwal_id']);
 
-    return view('warga.show', compact('antrean'));
+    return view('warga.show', compact('antrean', 'jadwal'));
 }
 
 }

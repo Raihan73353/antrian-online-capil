@@ -75,12 +75,21 @@
         <div class="jam-ambil">
             <i class="fas fa-clock"></i> Jam Ambil: {{ $antrean->jam }}
         </div>
+        <div class="tanggal-ambil">
+            <i class="fas fa-calendar-alt"></i> Tanggal Antrian: {{ $jadwal->tanggal }}
+        </div>
 
         <p class="text-muted mb-4">Harap tunggu hingga nomor Anda dipanggil.</p>
 
-        <a href="{{ route('warga.index') }}" class="btn btn-primary w-100">
+
+    <div class="d-grid gap-2">
+        <button class="btn btn-success" onclick="downloadAsImage()">
+            <i class="fas fa-download"></i> Unduh Gambar
+        </button>
+        <a href="{{ route('warga.index') }}" class="btn btn-primary">
             <i class="fas fa-home"></i> Kembali ke Dashboard
         </a>
+    </div>
     </div>
 
     <div class="footer">
@@ -88,5 +97,17 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function downloadAsImage() {
+    const card = document.querySelector('.card');
+    html2canvas(card).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'nomor-antrian.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+</script>
 </body>
 </html>

@@ -143,7 +143,7 @@
 
                         <div class="mb-3">
                             <label for="no_hp">Nomor HP</label>
-                            <input type="text" name="no_hp" id="no_hp"
+                            <input type="number" name="no_hp" id="no_hp"
                                 value="{{ old('no_hp') }}"
                                 class="form-control @error('no_hp') is-invalid @enderror"
                                 placeholder="08xxxxxxxxxx" required>
